@@ -12,6 +12,9 @@ app.use(cors()) // allow cross-origin resource sharing
 app.use(express.json()) // decode JSON-formatted incoming POST data
 app.use(express.urlencoded({ extended: true })) // decode url-encoded incoming POST data
 
+// serve static files from the frontend public directory
+app.use(express.static('../front-end/public'))
+
 // connect to database
 mongoose
   .connect(`${process.env.DB_CONNECTION_STRING}`)
@@ -77,6 +80,17 @@ app.post('/messages/save', async (req, res) => {
     })
   }
 })
+
+app.get("/about", (req, res) => {
+  res.json({
+    imageUrl: "/juno-photo.jpg",
+    paragraphs: [
+      "Hi, my name is Juno!",
+      "I'm a Senior Computer Science major with a minor in Web Applications and Programming.",
+      "Outside of academics, I love adventure and staying active. I’m a rock climber, skateboarder, and hiking enthusiast. Music also plays a big role in my life—I often listen to Techno while working or relaxing."
+    ]
+  });
+});
 
 // export the express app we created to make it available to other modules
 module.exports = app // CommonJS export style!
